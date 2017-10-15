@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Bootstrap Example</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script>
+		function validate(evt) {
+			var theEvent = evt || window.event;
+			var key = theEvent.keyCode || theEvent.which;
+			key = String.fromCharCode(key);
+			var regex = /[0-9]|\./;
+			if (!regex.test(key) && evt.keyCode != 8) {
+				theEvent.returnValue = false;
+				if (theEvent.preventDefault) theEvent.preventDefault();
+			}
+		}
+
+		function checkWhich() {
+			var inny = $(".vertical-middle").find("input:last");
+			switch (inny.attr("id")) {
+				case "magdmg":
+					inny.attr("type", "text");
+					inny.addClass("maskInput");
+					inny.attr("disabled", "disabled");
+					setTimeout(function () {
+						inny.css("transform", "translateY(-25%");
+						$("#innyholder").append("<input type='number' id='critdmg' class='input-control' placeholder='critical damage'>");
+
+					}, 300);
+					setTimeout(function() {
+						$("#critdmg").focus();
+					}, 500);
+					break;
+				case "critdmg":
+					inny.attr("type","text");
+					inny.addClass("maskInput");
+					inny.attr("disabled","disabled");
+					doCalc();
+					$(".my-btn").text("Reset");
+					$(".my-btn").on("click", function() {
+						location.reload();
+					});
+					break;
+			}
+		}
+ function numberWithCommas(x) { return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+		function doCalc() {
+			var magdmg = $("#magdmg").val();
+			var critdmg = $("#critdmg").val();
+			critdmg = critdmg / 100;
+			var adjdmg = magdmg * 1.555556;
+			console.log(adjdmg);
+			adjdmg = adjdmg * 4;
+			console.log(adjdmg);
+			adjdmg = adjdmg * 2.5;
+ console.log(adjdmg);
+			adjdmg = adjdmg * critdmg;
+ console.log(adjdmg);
+			var adder = (magdmg *  1.55556) * .1;
+			console.log("adder: " + adder);
+ console.log(adjdmg);
+ adjdmg = adjdmg * .01;
+			adjdmg = adder + adjdmg;
+			adjdmg = Math.floor(adjdmg);
+			adjdmg = numberWithCommas(adjdmg);
+			$("#output").text(adjdmg);
+		}
+		41774159
+	</script>
+	<style>
+		.outside-cont {
+			margin-top: 20px;
+			position: relative;
+			left: 50%;
+			transform: translateX(-50%);
+			text-align: center;
+			font-family: sans-serif;
+			transition: all .3s cubic-bezier(.25, .8, .25, 1);
+		}
+
+		.container {
+			transform: rotateZ(45deg);
+			width: 60px;
+			height: 60px;
+		}
+
+		.square {
+			width: 25px;
+			height: 25px;
+			background-color: rgb(239, 79, 74);
+			display: inline-block;
+			position: absolute;
+		}
+
+		.square-empty {
+			width: 50px;
+			height: 50px;
+			background-color: white;
+			display: inline-block;
+			position: relative;
+		}
+
+		@keyframes square3 {
+			0% {
+				right: 0px;
+			}
+			25% {
+				right: 30px;
+			}
+			75% {
+				bottom: 0px;
+				right: 35px;
+			}
+			100% {
+				bottom: 35px;
+				right: 35px;
+			}
+		}
+
+		@keyframes square2 {
+			25% {
+				bottom: 35px
+			}
+			50%,
+			100% {
+				bottom: 0px;
+			}
+		}
+
+		@keyframes square1 {
+			50% {
+				left: 0px;
+			}
+			75%,
+			100% {
+				left: 35px;
+			}
+			;
+		}
+
+		.maskInput {
+			border: 0px !important;
+		}
+
+		.vertical-middle {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			text-align: center;
+		}
+
+		.input-control {
+			border: 2px solid rgb(231, 105, 105);
+			padding: 7px;
+			font-size: 34px;
+			text-align: center;
+			width: 100%;
+			position: relative;
+			transform: translate(0, 0);
+			transition: all .3s cubic-bezier(.25, .8, .25, 1);
+			-webkit-transition: all .3s cubic-bezier(.25, .8, .25, 1);
+		}
+
+		.input-control:focus {
+			outline: 0 none;
+			transition: all .3s cubic-bezier(.25, .8, .25, 1);
+		}
+
+		.input-control:disabled {
+			background-color: white;
+			color: rgb(231, 105, 105);
+		}
+
+		.my-btn {
+			background-color: rgb(240, 60, 60);
+			border: 1px solid #AD1818;
+			padding: 5px;
+			color: white;
+			text-align: center;
+			border-radius: 5px;
+			font-family: sans-serif;
+			margin: 10px;
+			transition: all .1s cubic-bezier(.25, .8, .25, 1);
+			display: inline-block;
+			font-size: 24px;
+		}
+
+		.my-btn:hover {
+			cursor: pointer;
+		}
+
+		.my-btn:active {
+			background-color: rgb(255, 136, 136);
+		}
+		#output {
+			font-size: 24px;
+			font-weight: bold;
+ color: rgb(231, 105, 105);
+		}
+	</style>
+</head>
+
+<body>
+<div class="outside-cont">
+	<div class="container">
+		<div class="square" style="left: 0px; animation: square1 1.2s infinite cubic-bezier(.25,.8,.25,1); animation-fill-mode: forwards;">
+
+		</div>
+		<div class="square" style="right: 0px;animation: square2 1.2s infinite cubic-bezier(.25,.8,.25,1); animation-fill-mode: forwards;"></div>
+		<div class="square" style="right: 0px; bottom: 0px; animation: square3 1.2s infinite cubic-bezier(.25,.8,.25,1); animation-fill-mode: forwards;"></div>
+	</div>
+</div>
+	<div class="vertical-middle col-xs-12 col-lg-12">
+
+		<div class="row">
+			<div class="col-lg-6 col-xs-12 col-lg-offset-3" id="innyholder"><input placeholder="magic damage" class="input-control" type="number" id="magdmg" onkeypress='validate(event)'></div>
+		</div>
+		<div class="row">
+			<div class="col-lg-6 col-lg-offset-3">
+				<div class="my-btn" onclick="checkWhich();">Continue</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-6 col-xs-12 col-lg-offset-3" id="output"></div>
+		</div>
+
+	</div>
